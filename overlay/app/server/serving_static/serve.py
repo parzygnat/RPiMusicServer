@@ -50,7 +50,7 @@ def post_file(filename):
         return jsonify({'error': 'Missing file'})
     original.save(os.path.join(UPLOAD_DIRECTORY, filename))
     queue.append(filename)
-    with open(UPLOAD_DIRECTORY + 'queue.json', 'w') as outfile:
+    with open(UPLOAD_DIRECTORY + '/queue.json', 'w') as outfile:
         json.dump(queue, outfile)
     return render_template('index.html', message="Personal Song Server")
 # a route where we will display a welcome message via an HTML template
@@ -63,7 +63,8 @@ def hello():
 @auth.login_required
 def post_update():
     queue = request.get_json()
-    print(queue)
+    with open(UPLOAD_DIRECTORY + '/queue.json', 'w') as outfile:
+        json.dump(queue, outfile)
     resp = jsonify(success=True)
     return resp
 
@@ -72,12 +73,13 @@ def post_update():
 def delete_song(num):
     os.remove(UPLOAD_DIRECTORY + '/' + queue[int(num)])
     queue.pop(int(num))
+    print(num)
     print(queue)
-    with open(UPLOAD_DIRECTORY + 'queue.json', 'w') as outfile:
+    with open(UPLOAD_DIRECTORY + '/queue.json', 'w') as outfile:
         json.dump(queue, outfile)
     resp = jsonify(success=True)
     return resp
 
 # run the application
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=8080)
