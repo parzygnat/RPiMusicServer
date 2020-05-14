@@ -1,3 +1,0 @@
-#!/bin/sh
-export FLASK_APP="/app/server/serving_static/serve.py"
-python3 /app/server/serving_static/serve.py &

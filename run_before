@@ -1,5 +1,0 @@
-#!/bin/bash
-(
-  cd GUI
-  python2 gui2.py
-)
